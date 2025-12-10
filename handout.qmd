@@ -33,8 +33,8 @@ format:
 
 a4paper: true
 
-bibliography: literatur.bib
-
+bibliography: references.bib
+nocite: '@*'
 reference-location: document
 number-sections: true
 
@@ -250,6 +250,11 @@ Simple bar plot
 
 \clearpage
 
+# References
+
+::: {#refs}
+:::
+
 # Affidavit
 
 I hereby affirm that this submitted paper was authored unaided and solely by me. Additionally, no other sources than those in the reference list were used. Parts of this paper, including tables and figures, that have been taken either verbatim or analogously from other works have in each case been properly cited with regard to their origin and authorship. This paper either in parts or in its entirety, be it in the same or similar form, has not been submitted to any other examination board and has not been published.
@@ -273,8 +278,3 @@ Checklist:
 -   [ ] In group work, each student’s contribution is clearly defined, and individual performance can be assessed using specified sections, page numbers, or other objective criteria.
 
 \[Karla Hernández,\] \[2025-02-17,\] \[Köln, Germany\]
-
-# References
-
-::: {#refs}
-:::
