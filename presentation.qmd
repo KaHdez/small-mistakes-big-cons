@@ -37,14 +37,21 @@ editor: visual
 
 </div>
 
+## Bad Practice vs Good Practice
+
+*Scenario:*
+
+What is the average purchase amount of customers under 30, and how does it differ by location?
+
+-   Click to download dataset: <a href="shopping_behavior.csv" download>CSV shopping_behavior dataset</a>
+
 ## Bad Practice Example
 
 ``` r
-
 # BAD import: let R guess names and types
 data_bad <- read.csv("shopping_behavior.csv")
 
-# BAD filter (forgetting to handle NA, using base [] correctly this time but no cleaning)
+# BAD filter (forgetting to handle NA)
 young_bad <- data_bad[data_bad$Age < 30, ]
 
 # BAD join using merge() with the same location_info
@@ -100,49 +107,56 @@ library(kableExtra)
 result_bad |>
   kbl(caption = "Bad practice result") |>
   scroll_box(height = "600px")
+```
 
+##
+``` {r}
+# Base R plot without formatting or correct data handling
+plot(merged_bad)
 ```
 
 ## Good Practice Example
 
 ``` r
-
+# Example of a good practice
+# 1) Import packages
 library(dplyr)
 library(lubridate)
+library(ggplot2)
 
-# 1) Read data with good practices
+# 2) Read data with good practices
 data_good <- read.csv(
   "shopping_behavior.csv",
   stringsAsFactors = FALSE,
   check.names = FALSE   # keeps "Purchase Amount (USD)" as-is
 )
 
-# 2) Parse dates correctly
+# 3) Parse dates correctly
 data_good <- data_good %>%
   mutate(
     Date_good = dmy(Date)
   )
 
-# 3) Remove exact duplicate rows (we know we injected some)
+# 4) Remove exact duplicate rows (we know we injected some)
 data_nodup <- data_good %>%
   distinct(.keep_all = TRUE)
 
-# 4) Keep only customers under 30
+# 5) Keep only customers under 30
 young_good <- data_nodup %>%
   filter(Age < 30)
 
-# 5) Location lookup table (regions are just for context)
+# 6) Location lookup table (regions are just for context)
 location_info <- data.frame(
   Location = c("California", "New York", "Texas", "Florida"),
   Region   = c("West", "East", "South", "South"),
   stringsAsFactors = FALSE
 )
 
-# 6) Safe join: keep all young customers, add Region if Location matches
+# 7) Safe join: keep all young customers, add Region if Location matches
 merged_good <- young_good %>%
   left_join(location_info, by = "Location")
 
-# 7) Clean up Location variants into one standard name
+# 8) Clean up Location variants into one standard name
 final_clean <- merged_good %>%
   mutate(
     Location_clean = case_when(
@@ -159,57 +173,73 @@ final_clean <- merged_good %>%
   ) %>%
   arrange(Location_clean)
 
-# 8) Round numbers to make the table nice for printing
+# 9) Round numbers to make the table nice for printing
 final_clean$avg_spend_young <- round(final_clean$avg_spend_young, 2)
 
-# 9) Print final result nicely
+# 10) Print final result nicely
 final_clean
 
 print(final_clean, n = Inf)
 View(final_clean)
 
-  
+# 11) Plot final results
+plot_data <- final_clean %>%
+  arrange(avg_spend_young) %>%
+  mutate(Location_clean = factor(Location_clean, Location_clean))
+
+ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(
+    title = "Average Spend of Customers Under 30 by Location",
+    x = "Location",
+    y = "Average Spend (USD)"
+  ) +
+  theme_minimal()
 ```
 
 ## 
 
 ```{r}
+# Example of a good practice
+# 1) Import packages
 library(dplyr)
 library(lubridate)
+library(ggplot2)
 
-# 1) Read data with good practices
+# 2) Read data with good practices
 data_good <- read.csv(
   "shopping_behavior.csv",
   stringsAsFactors = FALSE,
   check.names = FALSE   # keeps "Purchase Amount (USD)" as-is
 )
 
-# 2) Parse dates correctly
+# 3) Parse dates correctly
 data_good <- data_good %>%
   mutate(
     Date_good = dmy(Date)
   )
 
-# 3) Remove exact duplicate rows (we know we injected some)
+# 4) Remove exact duplicate rows (we know we injected some)
 data_nodup <- data_good %>%
   distinct(.keep_all = TRUE)
 
-# 4) Keep only customers under 30
+# 5) Keep only customers under 30
 young_good <- data_nodup %>%
   filter(Age < 30)
 
-# 5) Location lookup table (regions are just for context)
+# 6) Location lookup table (regions are just for context)
 location_info <- data.frame(
   Location = c("California", "New York", "Texas", "Florida"),
   Region   = c("West", "East", "South", "South"),
   stringsAsFactors = FALSE
 )
 
-# 6) Safe join: keep all young customers, add Region if Location matches
+# 7) Safe join: keep all young customers, add Region if Location matches
 merged_good <- young_good %>%
   left_join(location_info, by = "Location")
 
-# 7) Clean up Location variants into one standard name
+# 8) Clean up Location variants into one standard name
 final_clean <- merged_good %>%
   mutate(
     Location_clean = case_when(
@@ -226,18 +256,38 @@ final_clean <- merged_good %>%
   ) %>%
   arrange(Location_clean)
 
-# 8) Round numbers to make the table nice for printing
+# 9) Round numbers to make the table nice for printing
 final_clean$avg_spend_young <- round(final_clean$avg_spend_young, 2)
 
-# 9) Good practice result
-library(knitr)
-library(kableExtra)
-
+# 10) Print final result nicely
 final_clean |>
   kbl(caption = "Good practice result") |>
   scroll_box(height = "600px")
-
 ```
+
+## 
+
+```{r}
+# 11) Plot final results
+plot_data <- final_clean %>%
+  arrange(avg_spend_young) %>%
+  mutate(Location_clean = factor(Location_clean, Location_clean))
+
+ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(
+    title = "Average Spend of Customers Under 30 by Location",
+    x = "Location",
+    y = "Average Spend (USD)"
+  ) + 
+  theme(
+    plot.title = element_text(face = "bold", size = 20, hjust = 0.5),
+    axis.text.y = element_text(size = 8),
+    axis.text.x = element_text(size = 8)
+  )
+```
+
 
 ## Lessons from Data Mismanagement in Business
 
