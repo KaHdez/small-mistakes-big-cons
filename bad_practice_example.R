@@ -25,3 +25,12 @@ result_bad$avg_spend_bad <- round(result_bad$avg_spend_bad, 2)
 result_bad
 print(result_bad, n = Inf)
 View(result_bad)
+
+# BAD plot result
+barplot(
+  result_bad$avg_spend_bad,
+  names.arg = result_bad$Location,
+  main = "Average Spend (BAD PRACTICE)",
+  xlab = "Location",
+  ylab = "Average Spend (USD)"
+)

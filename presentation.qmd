@@ -1,8 +1,12 @@
 ---
-title: "Small Errors, Big Consequences: Lessons from Data Mismanagement in Business" 
-author: "Karla Hernández - 400916125 - hernandez.karla@stud.hs-fresenius.de" 
-format: revealjs 
-editor: visual 
+title: "Small Errors, Big Consequences: Lessons from Data Mismanagement in Business"
+author: "Karla Hernández - 400916125 - hernandez.karla@stud.hs-fresenius.de"
+format:
+  revealjs:
+    embed-resources: true
+  pdf:
+    papersize: A4
+editor: visual
 ---
 
 ## Why Smalls Errors Matter
@@ -75,7 +79,7 @@ print(result_bad, n = Inf)
 View(result_bad)
 ```
 
-## 
+## Outcome
 
 ```{r}
 # BAD import: let R guess names and types
@@ -109,10 +113,29 @@ result_bad |>
   scroll_box(height = "600px")
 ```
 
-##
+## Plot
+
+``` r
+# BAD plot result
+barplot(
+  result_bad$avg_spend_bad,
+  names.arg = result_bad$Location,
+  main = "Average Spend (BAD PRACTICE)",
+  xlab = "Location",
+  ylab = "Average Spend (USD)"
+)
+```
+
+**Plot Outcome**
 ``` {r}
-# Base R plot without formatting or correct data handling
-plot(merged_bad)
+# BAD plot result
+barplot(
+  result_bad$avg_spend_bad,
+  names.arg = result_bad$Location,
+  main = "Average Spend (BAD PRACTICE)",
+  xlab = "Location",
+  ylab = "Average Spend (USD)"
+)
 ```
 
 ## Good Practice Example
@@ -181,24 +204,9 @@ final_clean
 
 print(final_clean, n = Inf)
 View(final_clean)
-
-# 11) Plot final results
-plot_data <- final_clean %>%
-  arrange(avg_spend_young) %>%
-  mutate(Location_clean = factor(Location_clean, Location_clean))
-
-ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young)) +
-  geom_bar(stat = "identity") +
-  coord_flip() +
-  labs(
-    title = "Average Spend of Customers Under 30 by Location",
-    x = "Location",
-    y = "Average Spend (USD)"
-  ) +
-  theme_minimal()
 ```
 
-## 
+## Outcome
 
 ```{r}
 # Example of a good practice
@@ -265,7 +273,30 @@ final_clean |>
   scroll_box(height = "600px")
 ```
 
-## 
+## Plot
+
+``` r
+# 11) Plot final results
+plot_data <- final_clean %>%
+  arrange(avg_spend_young) %>%
+  mutate(Location_clean = factor(Location_clean, Location_clean))
+
+ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(
+    title = "Average Spend of Customers Under 30 by Location",
+    x = "Location",
+    y = "Average Spend (USD)"
+  ) + 
+  theme(
+    plot.title = element_text(face = "bold", size = 20, hjust = 0.5),
+    axis.text.y = element_text(size = 8),
+    axis.text.x = element_text(size = 8)
+  )
+```
+
+## Plot Outcome
 
 ```{r}
 # 11) Plot final results

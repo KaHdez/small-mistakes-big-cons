@@ -74,5 +74,9 @@ ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young)) +
     title = "Average Spend of Customers Under 30 by Location",
     x = "Location",
     y = "Average Spend (USD)"
-  ) +
-  theme_minimal()
+  ) + 
+  theme(
+    plot.title = element_text(face = "bold", size = 20, hjust = 0.5),
+    axis.text.y = element_text(size = 8),
+    axis.text.x = element_text(size = 8)
+  )

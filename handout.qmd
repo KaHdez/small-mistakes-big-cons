@@ -164,6 +164,90 @@ By comparing bad practices vs better practices, we can clearly see how very smal
 9.  Peer review is essential.
 10. Great analysts aren't those who make no mistakes, they are the ones who catch mistakes early.
 
+# Exercise
+
+## Scenario
+
+You work in the analytics team of a retail company and your manager asks the following: *“What is the average purchase amount by age group?”* Using the file shopping_behavior.csv, calculate:
+
+1. The average purchase for customers under 25
+
+2. The average purchase for customers 25–40
+
+3. The average purchase for customers over 40
+
+*Click to download dataset: <a href="shopping_behavior.csv" download>CSV shopping_behavior dataset</a>*
+
+## Solution
+
+``` r
+# 1) Load packages
+library(dplyr)
+library(ggplot2)
+
+# 2) Import data
+data_raw <- read.csv(
+  "shopping_behavior.csv",
+  stringsAsFactors = FALSE,
+  check.names = FALSE
+)
+
+# 3) Remove duplicates
+data_unique <- data_raw %>%
+  distinct(.keep_all = TRUE)
+
+# 4) Create age groups
+data_age <- data_unique %>%
+  mutate(
+    age_group = case_when(
+      Age < 25 ~ "Under 25",
+      Age >= 25 & Age <= 40 ~ "25–40",
+      Age > 40 ~ "Over 40",
+      TRUE ~ "Unknown"
+    )
+  )
+
+# 5) Calculate average purchase
+summary_table <- data_age %>%
+  group_by(age_group) %>%
+  summarise(
+    avg_purchase = mean(`Purchase Amount (USD)`, na.rm = TRUE),
+    n_customers = n(),
+    .groups = "drop"
+  ) %>%
+  arrange(age_group)
+
+# 6) Round values
+summary_table$avg_purchase <- round(summary_table$avg_purchase, 2)
+
+# 7) Display results
+print(summary_table)
+
+# 8) Simple plot
+ggplot(summary_table, aes(x = age_group, y = avg_purchase)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Purchase Amount by Age Group",
+    x = "Age Group",
+    y = "Average Spend (USD)"
+  ) +
+  theme_minimal()
+```
+
+## Outcome
+
+::: {#fig-final-outcome}
+![](final-outcome.png){width="60%"}
+
+Average purchase per group
+:::
+
+::: {#fig-final-plot}
+![](final-plot.png){width="60%"}
+
+Simple bar plot
+:::
+
 \clearpage
 
 # Affidavit
