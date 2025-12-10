@@ -9,6 +9,12 @@ format:
 editor: visual
 ---
 
+## Scan me
+
+::: {#}
+![](qr-code.png){width="60%"}
+:::
+
 ## Why Smalls Errors Matter
 
 -   Data drives decisions in production, hiring, marketing & forecasting
