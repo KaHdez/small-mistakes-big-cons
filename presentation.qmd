@@ -274,9 +274,7 @@ final_clean <- merged_good %>%
 final_clean$avg_spend_young <- round(final_clean$avg_spend_young, 2)
 
 # 10) Print final result nicely
-final_clean |>
-  kbl(caption = "Good practice result") |>
-  scroll_box(height = "600px")
+final_clean
 ```
 
 ## Plot
