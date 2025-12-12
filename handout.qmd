@@ -178,6 +178,7 @@ By comparing bad practices vs better practices, we can clearly see how very smal
 8.  Data types matter more than most people realize.
 9.  Peer review is essential.
 10. Great analysts aren't those who make no mistakes, they are the ones who catch mistakes early.
+***PRUEBA***
 
 # Exercise
 
