@@ -49,3 +49,4 @@ ggplot(summary_table, aes(x = age_group, y = avg_purchase)) +
     y = "Average Spend (USD)"
   ) +
   theme_minimal()
+

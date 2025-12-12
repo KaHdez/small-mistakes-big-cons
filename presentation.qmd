@@ -11,7 +11,7 @@ editor: visual
 
 ## Scan me
 
-::: {#}
+::: {#fig-qr-code}
 ![](qr-code.png){width="60%"}
 :::
 
@@ -274,7 +274,7 @@ final_clean <- merged_good %>%
 final_clean$avg_spend_young <- round(final_clean$avg_spend_young, 2)
 
 # 10) Print final result nicely
-final_clean
+final_clean 
 ```
 
 ## Plot
