@@ -42,7 +42,7 @@ number-sections: true
 
 Word count: {{wordcount}}
 
-# "Small" Erros
+# "Small" Errors
 
 When people think about data problems in business, they often imagine something dramatic; like a system failure, a cyberattack, or a huge coding bug. But in reality, business data disasters usually don’t come from big dramatic mistakes. They come from very small, very ordinary mistakes that slip through because nobody notices them.
 
@@ -71,9 +71,9 @@ Here are some examples of small mistakes that can break results later:
 What may be considered as "small error" examples
 :::
 
-# Tiny Erros, Big Consequences
+# Tiny Errors, Big Consequences
 
-The previous mistakes look tiny, but later they affect totals, predictions, and business decisions. Let's take now a look of how these errors can be related to real life examples:
+The previous mistakes look tiny, but later they affect totals, predictions, and business decisions. Let's take now a look at how these errors can be related to real life examples:
 
 ::: {#tbl-btable}
 | Area | Tiny Error | Big Result |
@@ -93,61 +93,76 @@ This section is about learning to recognize moments where we *assume* something 
 
 Now we'll see some tasks and how we can avoid bad practices with examples of the best common practices:
 
-* **Importing:** R doesn't convert text into categories automatically.
+1. **Importing:** R doesn't convert text into categories automatically.
   + *Bad Practice:* `read.csv("file.csv")`
-  - *Good Practice:* `read.csv("file.csv", stringsAsFactors = FALSE)`
+  + *Good Practice:* `read.csv("file.csv", stringsAsFactors = FALSE)`
+  - *Business Example:* Customer IDs don’t match, therefore sales linked to wrong clients.
 
-* **Missing values:** Get real averages instead of NA results that look "valid" but are unusable.
+2. **Missing values:** Get real averages instead of NA results that look "valid" but are unusable.
   + *Bad Practice:* `mean(x)`
-  - *Good Practice:* `mean(x, na.rm = TRUE)`
+  + *Good Practice:* `mean(x, na.rm = TRUE)`
+  - *Business Example:* Sales forecast too low that will lead to underproduction.
 
-* **Joining tables:** Avoid accidental duplicates and can see which rows didn't match.
+3. **Joining tables:** Avoid accidental duplicates and can see which rows didn't match.
   + *Bad Practice:* `merge(df1, df2)`
-  - *Good Practice:* `left_join(df1, df2, by = "ID")` + `anti_join()`
+  + *Good Practice:* `left_join(df1, df2, by = "ID")` + `anti_join()`
+  - *Business Example:* HR turnover looks higher, by consequence there will be unnecessary hiring.
 
-* **Data types:** Verify and enforce data types instead of hiping R guessed correctly. ***Only applicable for versions prior to R 4.0***
+4. **Data types:** Verify and enforce data types instead of hiping R guessed correctly. ***Only applicable for versions prior to R 4.0***
   + *Bad Practice:* Assuming R knows the type
-  - *Good Practice:* `str()`
+  + *Good Practice:* `str(), glimpse(), mutate()`
+  - *Business Example:* Revenue calculations wrong leading to bad budgeting.
 
-* **Checking data:** Catch mistakes before modeling instead of discovering them too late.
-  + *Bad Practice:* Not looking at the data
-  - *Good Practice:* `summary()`, `head()`, `table()`, `view()`
+5. **Checking data:** Catch mistakes before modeling instead of discovering them too late.
+  + *Bad Practice:* Skipping inspection.
+  + *Good Practice:* `summary(), head(), table(), view()`
+  - *Business Example:* Management trusts a dashboard that is wrong.
 
-* **Filtering:** Keeps the dataset clean and consistent instead of returning unpredictable formats.
+6. **Filtering:** Keeps the dataset clean and consistent instead of returning unpredictable formats.
   + *Bad Practice:* `data[data$age > 18]`
-  - *Good Practice:* `filter(data, age > 18)`
+  + *Good Practice:* `filter(data, age > 18)`
+  - *Business Example:* Customer segments misclassified.
 
-* **Removing duplicates:** Removes duplicates but also lets us see exactly which rows were duplicated.
+
+7. **Removing duplicates:** Removes duplicates but also lets us see exactly which rows were duplicated.
   + *Bad Practice:* `unique(data)`
-  - *Good Practice:* `distinct(data, .keep_all = TRUE)`
+  + *Good Practice:* `distinct(data, .keep_all = TRUE)`
+  - *Business Example:* Marketing overspends on duplicated customers.
 
-* **Renaming columns:** Rename the correct column even if column order later changes.
+8. **Renaming columns:** Rename the correct column even if column order later changes.
   + *Bad Practice:* `colnames(data) [3] <- "sales"`
-  - *Good Practice:* `rename(data, sales = old_name)`
+  + *Good Practice:* `rename(data, sales = old_name)`
+  - *Business Example:* KPIs calculated using the wrong metric.
 
-* **Selecting columns:** Safer because column names don't change, column numbers do.
+9. **Selecting columns:** Safer because column names don't change, column numbers do.
   + *Bad Practice:* `data[, c(1,2,5]`
-  - *Good Practice:* `select(data, name, price, region)`
+  + *Good Practice:* `select(data, name, price, region)`
+  - *Business Example:* Reports based on wrong variables.
 
-* **Dates:** Prevents R from guessing the wrong date format, which happens often.
+10. **Dates:** Prevents R from guessing the wrong date format, which happens often.
   + *Bad Practice:* `as.Date(Date)`
-  - *Good Practice:* `as.Date(date, format="%d/%m/%Y")` or `lubridate::dmy()`
+  + *Good Practice:* `as.Date(date, format="%d/%m/%Y")` or `lubridate::dmy()`
+  - *Business Example:* Sales trends analyzed for wrong time period.
 
-* **Reading Excel:** Makes sure to always read the correct sheet even if the sheet order changes.
+11. **Reading Excel:** Makes sure to always read the correct sheet even if the sheet order changes.
   + *Bad Practice:* `read:excel("file.xlsx")`
-  - *Good Practice:* `read_excel("file.xlsx", sheet="Sales2024)`
+  + *Good Practice:* `read_excel("file.xlsx", sheet="Sales2024)`
+  - *Business Example:* Decisions based on outdated data.
 
-* **Plotting:** Control exactly what gets plotted instead of letting R "guess".
+12. **Plotting:** Control exactly what gets plotted instead of letting R "guess".
   + *Bad Practice:* `plot(data)`
-  - *Good Practice:* `ggplot(data, aes(x, y))` + `geom_line()`
+  + *Good Practice:* `ggplot(data, aes(x, y))` + `geom_line()`
+  - *Business Example:* Executives draw wrong conclusions from graphs.
 
-* **Pipelines:** \>filter()
-  + *Bad Practice:* Many separate steps
-  - *Good Practice:* \`data
+13. **Pipelines (chaining steps):** A pipeline shows the full logic in one place, makes the order of steps clear, and makes the code easier to read, review, and debug.
+  + *Bad Practice:* Many separate transformations that overwrite the dataset multiple times.
+  + *Good Practice:* Use a single pipeline to apply all steps in order.
+  - *Business Example:* Losing track of transformations.
 
-* **Saving:** Always keep the original data safe in case of errors.
+14. **Saving:** Always keep the original data safe in case of errors.
   + *Bad Practice:* Overwriting the raw file
-  - *Good Practice:* Save a separate clean file
+  + *Good Practice:* Save a separate clean file
+  - *Business Example:* Errors cannot be traced or corrected later.
 
 By comparing bad practices vs better practices, we can clearly see how very small choices in code, tiny details, can be the difference between a *result that is silently wrong* and a **result that can be trusted.**
 
