@@ -63,20 +63,19 @@ print(final_clean, n = Inf)
 View(final_clean)
 
 # 11) Plot final results
-plot_data <- final_clean %>%
-  arrange(avg_spend_young) %>%
-  mutate(Location_clean = factor(Location_clean, Location_clean))
-
-ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young)) +
-  geom_bar(stat = "identity") +
+ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young, fill = Location_clean)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
   coord_flip() +
   labs(
     title = "Average Spend of Customers Under 30 by Location",
     x = "Location",
     y = "Average Spend (USD)"
-  ) + 
+  ) +
+  scale_fill_viridis_d() +
+  theme_minimal() +
   theme(
     plot.title = element_text(face = "bold", size = 20, hjust = 0.5),
     axis.text.y = element_text(size = 8),
     axis.text.x = element_text(size = 8)
   )
+
