@@ -320,3 +320,6 @@ ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young, fill = Location_c
 8.  **Data types** matter more than most people realize.
 9.  *Peer* review is **essential**.
 10. ***Great analysts aren't those who make no mistakes, they are the ones who catch mistakes early.***
+
+## Thank you
+Questions?
