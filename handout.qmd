@@ -51,7 +51,7 @@ Here’s why:
 -   Companies collect tons of data every day.
 -   Teams are under pressure to work fast and deliver results.
 -   Everyone assumes that software will catch mistakes automatically.
--   RStudio runs perfectly even if the data is wrong.
+-   R runs perfectly even if the data is wrong.
 
 So a tiny mistake, like a missing value or a duplicated customer, might not look dangerous at first. But once that mistake is used in reports, dashboards, forecasts, or decisions… it suddenly becomes a big problem with big consequences.
 
@@ -169,7 +169,7 @@ By comparing bad practices vs better practices, we can clearly see how very smal
 # Lessons from Data Mismanagement in Business
 
 1.  A tiny mistake in data can cause a huge mistake in a business decision.
-2.  RStudio won't warn you when the result is wrong, only when the code is.
+2.  R won't warn you when the result is wrong, only when the code is.
 3.  Never assume the data is clean, always check it.
 4.  Good analysis starts before modeling with data validation.
 5.  Being explicit in your code prevents disasters.

@@ -78,4 +78,3 @@ ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young, fill = Location_c
     axis.text.y = element_text(size = 8),
     axis.text.x = element_text(size = 8)
   )
-
