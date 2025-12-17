@@ -21,7 +21,7 @@ editor: visual
 -   Most business data failures are not dramatic bugs
 -   They come from tiny, unnoticed mistakes
 -   If the data is wrong, the decision is wrong
--   RStudio does not warn when results are logically wrong
+-   R does not warn when results are logically wrong
 
 ## What Counts as a "Small Error"?
 
@@ -133,7 +133,8 @@ barplot(
 ```
 
 **Plot Outcome**
-``` {r}
+
+```{r}
 # BAD plot result
 barplot(
   result_bad$avg_spend_bad,
@@ -304,11 +305,10 @@ ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young, fill = Location_c
 ![](good-practice-plot-outcome.png){width="60%"}
 :::
 
-
 ## Lessons from Data Mismanagement in Business
 
 1.  A *tiny mistake* in data can cause a **huge mistake** in a business decision.
-2.  RStudio won't warn you when the result is *wrong*, only when the **code** is.
+2.  R won't warn you when the result is *wrong*, only when the **code** is.
 3.  Never *assume* the data is clean, always **check it**.
 4.  Good analysis starts **before** modeling with data validation.
 5.  *Being explicit* in your code **prevents disasters**.
@@ -322,4 +322,5 @@ ggplot(plot_data, aes(x = Location_clean, y = avg_spend_young, fill = Location_c
 10. ***Great analysts aren't those who make no mistakes, they are the ones who catch mistakes early.***
 
 ## Thank you
+
 Questions?
